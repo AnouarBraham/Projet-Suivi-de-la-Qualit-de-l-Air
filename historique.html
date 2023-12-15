@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique des Graphiques</title>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="stylehist.css">
+    <script src="historique.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <h1>Historique des Graphiques</h1>
+    </header>
+
+    
+
+
+    <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+    <h3 id="co2-value">CO2 Value: </h3>
+    <h3 id="humidity-value">Humidity Percentage : </h3>
+    <h3 id="gauge-value">Temperature Value : </h3>
+
+
+
+
+
+
+    <script>
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+
+
+
+
+
+var co2Values = [];
+var humidityValues = [];
+var tempValues = [];
+
+function updateCO2Value() {
+    var co2Value = document.getElementById('co2-value');
+
+    setTimeout(function() { // Add a setTimeout to delay the initial update 
+        updateCO2();
+        setInterval(updateCO2, 5000);
+    }, 1000);
+  
+    function updateCO2() {
+        var randomValue = Math.floor(Math.random() * (1500 - 400 + 1) + 400);
+
+        var currentTime = new Date().toLocaleTimeString();
+        var entry = {
+            time: currentTime,
+            value: randomValue
+        };
+
+        co2Values.push(entry);
+
+        if (co2Values.length > 20) {
+            co2Values.shift();
+        }
+
+        co2Value.innerHTML = "CO2 Value (ppm):<br>";
+
+        for (var i = 0; i < co2Values.length; i++) {
+            var entry = co2Values[i];
+            co2Value.innerHTML += "<div>" + entry.time + " - " + entry.value + " ppm</div>";
+        }
+    }
+}
+
+function updateHumidityValue() {
+    var humidityValue = document.getElementById('humidity-value');
+
+    setTimeout(function() {
+        updateHumidity();
+        setInterval(updateHumidity, 5000);
+    }, 1000);
+
+    function updateHumidity() {
+        var randomValue = Math.floor(Math.random() * 101);
+
+        var currentTime = new Date().toLocaleTimeString();
+        var entry = {
+            time: currentTime,
+            value: randomValue
+        };
+
+        humidityValues.push(entry);
+
+        if (humidityValues.length > 20) {
+            humidityValues.shift();
+        }
+
+        humidityValue.innerHTML = "Humidity Percentage:<br>";
+
+        for (var i = 0; i < humidityValues.length; i++) {
+            var entry = humidityValues[i];
+            humidityValue.innerHTML += "<div>" + entry.time + " - " + entry.value + "%</div>";
+        }
+    }
+}
+
+function updateTemperatureValue() {
+    var tempValue = document.getElementById('gauge-value');
+
+    setTimeout(function() {
+        updateTemperature();
+        setInterval(updateTemperature, 5000);
+    }, 1000);
+
+    function updateTemperature() {
+        var randomValue = 16 + Math.round(10 * Math.random());
+
+        var currentTime = new Date().toLocaleTimeString();
+        var entry = {
+            time: currentTime,
+            value: randomValue
+        };
+
+        tempValues.push(entry);
+
+        if (tempValues.length > 20) {
+            tempValues.shift();
+        }
+
+        tempValue.innerHTML = "Temperature Value (°C):<br>";
+
+        for (var i = 0; i < tempValues.length; i++) {
+            var entry = tempValues[i];
+            tempValue.innerHTML += "<div>" + entry.time + " - " + entry.value + " °C</div>";
+        }
+    }
+}
+
+updateCO2Value();
+updateHumidityValue();
+updateTemperatureValue();
+
+        
+
+        
+
+
+    </script>
+
+
+
+
+
+
+
+</body>
+
+</html>
+

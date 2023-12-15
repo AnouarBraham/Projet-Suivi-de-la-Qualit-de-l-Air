@@ -1,0 +1,227 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    
+}
+
+
+
+header {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+
+#dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centrer les éléments horizontalement */
+    align-items: center; /* Centrer les éléments verticalement */
+    margin: 20px;
+}
+
+#chart_div {
+    width:70%;
+    position:absolute;
+    left:640px;
+    transition: transform 0.3s ease-in-out;
+    margin:5px;
+}
+
+#geochart-colors {
+    margin:5px;
+    transition: transform 0.3s ease-in-out;
+
+}
+
+
+#geochart-colors:hover {
+    transform: scale(1.05);
+}
+
+
+#particulechart_div{
+    transition: transform 0.3s ease-in-out;
+
+}
+
+#particulechart_div:hover {
+    transform: scale(1.05);
+}
+
+#chart_div:hover {
+    transform: scale(1.05);
+}
+
+#geochart-colors {
+    position:absolute;
+    top:1115px;
+    left:180px;
+}
+
+
+#particulechart_div {
+    position: absolute;
+    top:1120px;
+    left:670px;
+}
+
+
+
+#pm10{
+
+    position:absolute;
+    top:1525px;
+    left:1000px;
+    font-family:Impact;
+    font-size: large;
+}
+
+#pm2 {
+    position:absolute;
+    top:1525px;
+    left:880px;
+    font-family:Impact;
+    font-size: large;
+
+
+}
+
+#pm10-value{
+    font-family: Arial;
+    color:orange;
+    font-size: 20px;
+}
+
+#pm2-value{
+    font-family: Arial;
+    color:blue;
+    font-size: 20px;
+}
+
+
+#geo-legend {
+    position:absolute;
+    top:1540px;
+    left:350px;
+
+}
+
+
+#chart_temp {
+    position:absolute;
+    left:300px;
+    top:700px;
+    margin-bottom: 20px;
+}
+
+#chart_temp:hover{
+    transform: scale(1.20);
+    transition: transform 0.3s ease-in-out;
+}
+
+
+
+.chart-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#gauge-legend {
+
+    position: absolute;
+    top: 940px;
+    font-size: large;
+    font-family: Tahoma;
+
+}
+
+#humidity-legend {
+    position: absolute;
+    top:1000px;
+    left:880px;
+
+}
+
+#humidity-chart {
+    position:flex;
+    width:740px;
+    height: 400px;
+}
+
+.widget {
+    padding: 20px;
+    margin: 10px;
+    transition: transform 0.3s ease-in-out;
+    width: 70%;
+    text-align: center;
+}
+
+.widget:hover {
+    transform: scale(1.05);
+}
+
+
+
+
+
+.legend {
+    text-align: absolute;
+    margin-top: 10px;
+    width: 100%;
+    left:350px;
+}
+
+
+
+#co2-value {
+
+    color: red;
+    font-family: Tahoma;
+}
+
+#humidity-value {
+    color:blue;
+    font-family: Tahoma;
+}
+
+
+#home{
+    font-family: Tahoma;
+}
+
+button {
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+/* Style des liens */
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+button:hover, a:hover {
+    background-color: #555;
+}
+
+.page {
+    display: none;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

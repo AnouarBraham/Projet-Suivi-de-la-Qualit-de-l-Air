@@ -1,0 +1,561 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi de la Qualité de l'Air</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+</head>
+
+<body>
+
+
+    <div id="dashboard">
+        <div class="chart-container">
+            <div class="widget">
+                <div id="curve_chart" style="width: 1000px; height: 450px"></div>
+                <div class="legend" id="co2-legend">Taux de CO2: <span id="co2-value">-</span> ppm</div>
+            </div>
+        </div>
+            <div class="chart-container">
+        <div id="chart_temp">
+            <div class="widget">
+                <div id="gauge-chart" style="width: 1000px; height: 450px;"></div>
+            </div>
+        </div>
+        <div class="legend" id="gauge-legend">Temperature<span id="gauge-value"></span></div>
+
+        <div class="chart-container">
+        <div id="chart_div" >
+            <div class="widget">
+                <div id="humidity-chart" width="1000px" height="400px"></div>
+            </div>
+        </div>
+        <div class="legend" id="humidity-legend">Humidité: <span id="humidity-value">-</span>%</div>
+        </div>
+
+        <div id="geo_div">
+        <div class="legend" id="geo-legend">Qualite Air: <span id="geo-value">AQI</span></div>   
+        <div id="geochart-colors" style="width: 450px; height: 400px;"></div>
+
+        
+
+        </div>
+
+
+        <div id="particulechart_div" style="width: 600px; height: 453px;"></div>
+        <div class="legend" id="pm10">PM10 : <span id="pm10-value"> </span></div>   
+        <div class="legend" id="pm2">PM2.5 : <span id="pm2-value"> </span></div>   
+
+</div>
+
+
+</div>
+
+
+
+
+
+    <script>
+    // Fonction pour afficher la page d'accueil
+    function showHome() {
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('home').style.display = 'block';
+        document.getElementById('charts').style.display = 'none';
+    }
+
+    // Fonction pour afficher la page des graphiques
+    function showCharts() {
+        document.getElementById('dashboard').style.display = 'none';
+        document.getElementById('home').style.display = 'none';
+        document.getElementById('charts').style.display = 'block';
+    }
+
+    // Appel de la fonction pour afficher la page d'accueil au chargement de la page
+    showHome();
+</script>
+
+
+
+
+
+
+
+<!--Gauge-->
+
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart', 'gauge'] });
+        google.charts.setOnLoadCallback(drawCharts);
+
+        function drawCharts() {
+            drawGaugeChart();
+            drawCO2Chart();
+            drawTemperatureChart();
+        }
+
+        function drawTemperatureChart() {
+  var data = google.visualization.arrayToDataTable([
+    ['Label', 'Value'],
+    ['Temperature', 0],
+  ]);
+
+  var options = {
+    width: 600, height: 200,
+    redFrom: 90, redTo: 100,
+    yellowFrom: 75, yellowTo: 90,
+    minorTicks: 5
+  };
+
+  var chart = new google.visualization.Gauge(document.getElementById('gauge-chart'));
+
+  chart.draw(data, options);
+
+  setInterval(function () {
+    // Replace this block with your code to fetch the real-time temperature value
+    // var temperatureValue = ...; (fetch your temperature value)
+    // data.setValue(0, 1, temperatureValue);
+    // chart.draw(data, options);
+
+    var temperatureValue = Math.floor(Math.random() * 60) + 20; // Example random value
+    data.setValue(0, 1, temperatureValue);
+    chart.draw(data, options);
+    
+
+    // Update the temperature value in the legend
+    document.getElementById('gauge-value').textContent = temperatureValue;
+  }, 3000);
+}
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function updateLegends() {
+        document.getElementById('co2-value').textContent = getRandomInt(400, 1500);
+        document.getElementById('humidity-value').textContent = getRandomInt(30, 70);
+
+    }
+
+    setInterval(updateLegends, 3000);
+
+    function drawGaugeChart() {
+var data = google.visualization.arrayToDataTable([
+    ['Label', 'Value'],
+    ['Temperature', 0],
+]);
+
+var options = {
+    width: 600, height: 200,
+    redFrom: 90, redTo: 100,
+    yellowFrom: 75, yellowTo: 90,
+    minorTicks: 5
+};
+
+var chart = new google.visualization.Gauge(document.getElementById('chart_temp'));
+
+chart.draw(data, options);
+
+setInterval(function() {
+    var temperatureValue = 16 + Math.round(10 * Math.random());
+    data.setValue(0, 1, temperatureValue);
+    chart.draw(data, options);
+
+}, 3000);
+}
+
+
+setInterval(function () {
+    var co2Value = Math.floor(Math.random() * (1500 - 400 + 1)) + 400;
+
+    co2Data.push([co2Data.length * 3, co2Value]);
+
+    if (co2Data.length > 10) {
+        co2Data.shift();
+    }
+
+    var data = google.visualization.arrayToDataTable(co2Data);
+    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+    chart.draw(data, options);
+
+  
+
+    document.getElementById('co2-value').textContent = co2Value;
+    document.getElementById('humidity-value').textContent = getRandomInt(30, 70);
+    document.getElementById('gauge-value').textContent = getRandomInt(10, 30);
+}, 3000);
+
+    </script>
+
+
+
+
+
+
+
+<!--taux co2-->
+
+<script type="text/javascript">
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+    var co2Data = [
+        ['Time (s)', 'CO2 (ppm)'],
+        [0, 400],
+        [3, 600],
+        [6, 800],
+        [9, 1000],
+        [12, 1200]
+    ];
+
+    var data = google.visualization.arrayToDataTable(co2Data);
+
+    var options = {
+        title: 'Taux de CO2 en ppm',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        hAxis: {
+            title: 'Time (s)'
+        },
+        vAxis: {
+            title: 'CO2 (ppm)'
+        }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+    // Mettre à jour les données toutes les 3 secondes
+    setInterval(function () {
+        // Simuler de nouvelles données
+        const co2Value = Math.floor(Math.random() * (1500 - 400 + 1)) + 400;
+
+        co2Data.push([co2Data.length * 3, co2Value]);
+
+        // Mettre à jour le texte
+        document.getElementById('co2-value').textContent = co2Value;
+
+        // Mettre à jour les données du graphique
+        data = google.visualization.arrayToDataTable(co2Data);
+        chart.draw(data, options);
+
+        
+    }, 3000);
+}
+</script>
+
+
+
+
+
+
+
+
+<!--humidity-->
+
+
+<script type="text/javascript">
+google.charts.load('current', { packages: ['corechart', 'bar'] });
+google.charts.setOnLoadCallback(drawHumidityChart);
+
+function drawHumidityChart() {
+  var data = new google.visualization.DataTable();
+  data.addColumn('number', 'Time (s)');
+  data.addColumn('number', 'Humidity');
+
+  var options = {
+  title: 'Humidity Over Time',
+  hAxis: {
+    title: 'Time (s)',
+    format: '0',
+    ticks: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  },
+  vAxis: {
+    title: 'Humidity (%)',
+    viewWindow: {
+      min: 0,
+      max: 100,
+    },
+    ticks: [0, 25, 50, 75, 100],
+  },
+  width: 620,
+  height: 400,
+  bar: { groupWidth: '50%' }, // Set the width of the bars to 50%
+  isStacked: false,
+};
+  var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+
+  // Draw an empty chart initially
+  chart.draw(data, options);
+
+  var currentTimeSeconds = 1;
+
+  
+
+  // Move the function outside drawHumidityChart
+  function updateChart() {
+    // Skip drawing the first bar to avoid the initial big bar issue
+    if (currentTimeSeconds > 0) {
+      var humidityValue = Math.floor(Math.random() * 101);
+
+      // Add a new row with the current time and humidity
+      data.addRow([currentTimeSeconds, humidityValue]);
+
+      // If the current time is 11, remove all rows and start from 0 again
+      if (currentTimeSeconds === 11) {
+        data.removeRows(0, data.getNumberOfRows());
+        currentTimeSeconds = 0;
+      } else if (data.getNumberOfRows() > 10) {
+        // If more than 10 rows, remove the oldest row
+        data.removeRow(0);
+      }
+
+      // Update the humidity value in the legend
+      document.getElementById('humidity-value').textContent = humidityValue;
+
+      // Redraw the chart with the updated data
+      chart.draw(data, options);
+    }
+
+    // Increment the current time seconds
+    currentTimeSeconds++;
+
+    // Continue updating every 3 seconds
+    setTimeout(updateChart, 3000);
+  }
+
+  // Start the initial update after 3 seconds
+  setTimeout(updateChart, 3000);
+}
+</script>
+
+
+
+
+
+
+
+<!-- geo -->
+
+<script>
+    google.charts.load('current', {
+    'packages': ['geochart'],
+    'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+  });
+  google.charts.setOnLoadCallback(drawRegionsMap);
+
+  function drawRegionsMap() {
+    var chart = new google.visualization.GeoChart(document.getElementById('geochart-colors'));
+
+    function updateChart() {
+  var data = google.visualization.arrayToDataTable([
+    ['Country', 'Air Quality'],
+    ['Algeria', getValueInRange(60, 200)],
+    ['Angola', getValueInRange(90, 200)],
+    ['Benin', getValueInRange(90, 200)],
+    ['Botswana', getValueInRange(90, 200)],
+    ['Burkina Faso', getValueInRange(50, 150)],
+    ['Burundi', getValueInRange(80, 100)],
+    ['Cameroon', getValueInRange(90, 110)],
+    ['Canary Islands', getValueInRange(90, 110)],
+    ['Cape Verde', getValueInRange(90, 110)],
+    ['Central African Republic', getValueInRange(80, 100)],
+    ['Ceuta', getValueInRange(90, 110)],
+    ['Chad', getValueInRange(80, 100)],
+    ['Comoros', getValueInRange(90, 110)],
+    ['Cote d\'Ivoire', getValueInRange(90, 110)],
+    ['Democratic Republic of the Congo', getValueInRange(90, 110)],
+    ['Djibouti', getValueInRange(90, 110)],
+    ['Egypt', getValueInRange(90, 110)],
+    ['Equatorial Guinea', getValueInRange(90, 110)],
+    ['Eritrea', getValueInRange(90, 110)],
+    ['Ethiopia', getValueInRange(90, 110)],
+    ['Gabon', getValueInRange(90, 110)],
+    ['Gambia', getValueInRange(80, 100)],
+    ['Ghana', getValueInRange(30, 200)],
+    ['Guinea', getValueInRange(80, 100)],
+    ['Guinea-Bissau', getValueInRange(80, 100)],
+    ['Kenya', getValueInRange(10, 180)],
+    ['Lesotho', getValueInRange(80, 100)],
+    ['Liberia', getValueInRange(80, 100)],
+    ['Libya', getValueInRange(90, 110)],
+    ['Madagascar', getValueInRange(90, 110)],
+    ['Madeira', getValueInRange(90, 110)],
+    ['Malawi', getValueInRange(80, 100)],
+    ['Mali', getValueInRange(80, 100)],
+    ['Mauritania', getValueInRange(80, 100)],
+    ['Mauritius', getValueInRange(90, 110)],
+    ['Mayotte', getValueInRange(90, 110)],
+    ['Melilla', getValueInRange(90, 110)],
+    ['Morocco', getValueInRange(90, 110)],
+    ['Mozambique', getValueInRange(80, 100)],
+    ['Namibia', getValueInRange(90, 110)],
+    ['Niger', getValueInRange(80, 100)],
+    ['Nigeria', getValueInRange(90, 110)],
+    ['Republic of the Congo', getValueInRange(90, 110)],
+    ['Réunion', getValueInRange(90, 110)],
+    ['Rwanda', getValueInRange(90, 110)],
+    ['Saint Helena', getValueInRange(80, 100)],
+    ['São Tomé and Principe', getValueInRange(90, 110)],
+    ['Senegal', getValueInRange(90, 110)],
+    ['Seychelles', getValueInRange(90, 110)],
+    ['Sierra Leone', getValueInRange(80, 100)],
+    ['Somalia', getValueInRange(80, 100)],
+    ['Sudan', getValueInRange(90, 110)],
+    ['South Africa', getValueInRange(90, 110)],
+    ['South Sudan', getValueInRange(80, 100)],
+    ['Swaziland', getValueInRange(90, 110)],
+    ['Tanzania', getValueInRange(90, 110)],
+    ['Togo', getValueInRange(90, 110)],
+    ['Tunisia', getValueInRange(0, 80)],
+    ['Uganda', getValueInRange(10, 50)],
+    ['Western Sahara', getValueInRange(80, 100)],
+    ['Zambia', getValueInRange(90, 110)],
+    ['Zimbabwe', getValueInRange(90, 110)],
+    // Countries with range 0-60
+    ['Mauritius', getValueInRange(0, 60)],
+    ['Madagascar', getValueInRange(0, 60)],
+    ['Seychelles', getValueInRange(0, 60)],
+    ['Comoros', getValueInRange(0, 60)],
+  ]);
+
+      var options = {
+        region: '002', // Africa
+        colorAxis: {
+          colors: ['#00FF00', '#FFFF00', '#FFA500', '#FF0000'], // Change colors based on new ranges
+          values: [0, 50, 100, 200] // Set color ranges
+        },
+        backgroundColor: '#81d4fa',
+        datalessRegionColor: '#f8bbd0',
+        defaultColor: '#f5f5f5',
+      };
+
+      chart.draw(data, options);
+    }
+
+
+    function getValueInRange(min, max) {
+  var value = Math.floor(Math.random() * (max - min + 1) + min);
+  if (value < min) {
+    return min;
+  } else if (value > max) {
+    return max;
+  } else {
+    return value;
+  }
+}
+
+    setInterval(updateChart, 3000);
+    updateChart(); // Initial draw
+  };
+
+</script>
+
+
+
+
+
+
+
+<!--particules PM10 et PM 2,5-->
+
+<script>
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(updateChart);
+  
+    var time = 1; // Initialize time counter
+    var interval; // Variable to hold the setInterval reference
+    var data; // Variable to hold the data array
+    var options; // Variable to hold the chart options
+    var chart; // Variable to hold the chart object
+  
+    function updateChart() {
+      data = google.visualization.arrayToDataTable([
+        ['', 'PM10', 'PM2.5'],
+        [1, getValueInRange(0, 100), getValueInRange(0, 100)],
+        [2, null, null], // Use 'null' for the hidden bars
+        [3, null, null],
+        [4, null, null],
+        [5, null, null],
+        [6, null, null],
+        [7, null, null],
+        [8, null, null],
+        [9, null, null],
+        [10, null, null],
+      ]);
+  
+      options = {
+        title: 'Fréquence des particules en suspension',
+        legend: { position: 'top', maxLines: 2 },
+        colors: ['#F8766D', '#619CFF'],
+        interpolateNulls: false,
+        height: 400,
+        histogram: {
+          lastBucketPercentile: 5,
+        },
+        vAxis: {
+          title: 'PM (particulate matter) µg/m3 ',      
+        },
+        hAxis: {
+          title: 'Time (s)',
+          viewWindow: { min: 0, max: 11}, // Set the time axis range from 1 to 10 seconds
+          gridlines: { count: 11 }, // Show 10 gridlines for time axis
+        },
+      };
+  
+      chart = new google.visualization.ColumnChart(document.getElementById('particulechart_div'));
+      chart.draw(data, options);
+  
+      // Start the update process
+      interval = setInterval(updateData, 3000); // Update every 3 seconds
+    }
+  
+    function updateData() {
+      time++;
+  
+      if (time > 10) {
+        time = 1;
+      }
+  
+      // Update the data array with new random values for current time
+      for (var i = 0; i < 10; i++) {
+        if (i == time - 1) {
+          var pm10Value = getValueInRange(0, 100);
+          var pm25Value = getValueInRange(0, 100);
+  
+          data.setValue(i, 1, pm10Value); // Update PM10 value for the first bar
+          data.setValue(i, 2, pm25Value); // Update PM2.5 value for the first bar
+          data.setValue(i+1, 1, pm10Value); // Update PM10 value for the second bar
+          data.setValue(i+1, 2, pm25Value); // Update PM2.5 value for the second bar
+  
+          // Update the live values in the legend
+          document.getElementById('pm10-value').textContent = pm10Value;
+          document.getElementById('pm2-value').textContent = pm25Value;
+  
+          i++; // Skip the next iteration to avoid updating the second bar again
+        } else {
+          data.setValue(i, 1, null); // Set PM10 value as null for hidden bars
+          data.setValue(i, 2, null); // Set PM2.5 value as null for hidden bars
+        }
+      }
+  
+      chart.draw(data, options);
+    }
+  
+    function getValueInRange(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+  </script>
+  
+  
+  
+  
+
+
+</body>
+
+</html>

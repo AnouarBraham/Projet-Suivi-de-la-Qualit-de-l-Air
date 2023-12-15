@@ -1,0 +1,129 @@
+body {
+    background-image: url('img.jpg');
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9fafb;
+    color: #333;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+}
+
+h1 {
+    margin: 0;
+    font-family: Arial;
+    font-size: 40px;
+}
+
+
+
+img{
+
+    filter: blur(2px);
+    display:none;
+}
+
+
+#bcharts{
+    position:absolute;
+    top:580px;
+    left:600px;
+    
+
+}
+
+#bhistorique{
+
+    position:absolute;
+    top:580px;
+    left:1050px;
+
+}
+
+#bliens{
+
+    position:absolute;
+    top:580px;
+    left:200px;
+
+}
+
+#name {
+    color:black;
+    font-size: large;
+    position: absolute;
+    font-weight: bold;
+    top:670px;
+    left:635px;
+}
+
+
+h2 {
+    text-align: center;
+    color: rgb(2, 226, 2);
+    margin-top: 10px;
+}
+
+#home {
+    background-color: rgba(255, 255, 255, 0.8); /* Ajout d'une opacité au fond */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top:20px;
+}
+
+#home h2 {
+    color: #007bff;
+    margin-top: 10px;
+}
+
+#charts {
+    background-color: #ffffff;
+    padding: 10px;
+    font-family: Tahoma;
+    text-align: center;
+}
+
+
+.welcome-message {
+    text-align: center;
+    margin: 50px 0;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: rgb(0, 0, 0);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 20px 50px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 18px; /* Adjust the font size as needed */
+}
+
+button:hover {
+    background-color: rgb(2, 226, 2);
+    transform: scale(1.05); /* Add a slight scale effect on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow on hover */
+}
+
+.page {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

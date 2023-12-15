@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charts Page</title>
+    <!-- Include any necessary stylesheets or scripts for the charts page -->
+</head>
+
+<body>
+    <h1>Charts Page</h1>
+    <!-- Add your chart content here -->
+
+<script>
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Variables pour stocker les valeurs historiques
+const co2History = [];
+const humidityHistory = [];
+const temperatureHistory = [];
+const vocHistory = [];
+
+// Génération de données pour le widget de taux de CO2
+function generateCO2Data() {
+    return Array.from({ length: 7 }, () => getRandomInt(400, 1500));
+}
+
+// Génération de données pour le widget d'humidité
+function generateHumidityData() {
+    return Array.from({ length: 7 }, () => getRandomInt(30, 70));
+}
+
+// Génération de données pour le widget de température
+function generateTemperatureData() {
+    return Array.from({ length: 7 }, () => getRandomInt(16, 26));
+}
+
+// Génération de données pour le widget de composés organiques volatils
+function generateVOCData() {
+    return Array.from({ length: 7 }, () => getRandomInt(0, 10));
+}
+
+// Rafraîchissement automatique toutes les 3 secondes
+setInterval(function() {
+    updateValues();
+}, 3000);
+
+// Mise à jour des valeurs
+function updateValues() {
+    const co2Data = generateCO2Data();
+    const humidityData = generateHumidityData();
+    const temperatureData = generateTemperatureData();
+    const vocData = generateVOCData();
+
+    co2History.push(co2Data);
+    humidityHistory.push(humidityData);
+    temperatureHistory.push(temperatureData);
+    vocHistory.push(vocData);
+
+    updateCO2Chart();
+    updateHumidityChart();
+    updateTemperatureChart();
+    updateVOCChart();
+}
+
+// Création du graphique de taux de CO2
+const co2Charts = new Chart(document.getElementById('co2-chart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: ['Moins 7 minutes', 'Moins 6 minutes', 'Moins 5 minutes', 'Moins 4 minutes', 'Moins 3 minutes', 'Moins 2 minutes', 'Dernière Minute'],
+        datasets: [{
+            label: 'Taux de CO2',
+            data: [],
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    },
+});
+
+// Création du graphique d'humidité
+const humidityChart = new Chart(document.getElementById('humidity-chart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: ['Moins 7 minutes', 'Moins 6 minutes', 'Moins 5 minutes', 'Moins 4 minutes', 'Moins 3 minutes', 'Moins 2 minutes', 'Dernière Minute'],
+        datasets: [{
+            label: 'Humidité',
+            data: [],
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    },
+});
+
+// Création du graphique de température
+const temperatureChart = new Chart(document.getElementById('temperature-chart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: ['Moins 7 minutes', 'Moins 6 minutes', 'Moins 5 minutes', 'Moins 4 minutes', 'Moins 3 minutes', 'Moins 2 minutes', 'Dernière Minute'],
+        datasets: [{
+            label: 'Température',
+            data: [],
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    },
+});
+
+// Création du graphique de composés organiques volatils
+const vocChart = new Chart(document.getElementById('voc-chart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: ['Moins 7 minutes', 'Moins 6 minutes', 'Moins 5 minutes', 'Moins 4 minutes', 'Moins 3 minutes', 'Moins 2 minutes', 'Dernière Minute'],
+        datasets: [{
+            label: 'Composés Organiques Volatils',
+            data: [],
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1
+        }]
+    },
+});
+
+// Mise à jour du graphique de taux de CO2
+function updateCO2Chart() {
+    const labels = co2History.map((_, index) => `Moins ${index + 6} minutes`);
+    const co2Data = co2History.flat();
+
+    co2Charts.data.labels = labels;
+    co2Charts.data.datasets[0].data = co2Data;
+    co2Charts.update();
+}
+
+// Mise à jour du graphique d'humidité
+function updateHumidityChart() {
+    const labels = humidityHistory.map((_, index) => `Moins ${index + 6} minutes`);
+    const humidityData = humidityHistory.flat();
+
+    humidityChart.data.labels = labels;
+    humidityChart.data.datasets[0].data = humidityData;
+    humidityChart.update();
+}
+
+// Mise à jour du graphique de température
+function updateTemperatureChart() {
+    const labels = temperatureHistory.map((_, index) => `Moins ${index + 6} minutes`);
+    const temperatureData = temperatureHistory.flat();
+
+    temperatureChart.data.labels = labels;
+    temperatureChart.data.datasets[0].data = temperatureData;
+    temperatureChart.update();
+}
+
+// Mise à jour du graphique de composés organiques volatils
+function updateVOCChart() {
+    const labels = vocHistory.map((_, index) => `Moins ${index + 6} minutes`);
+    const vocData = vocHistory.flat();
+
+    vocChart.data.labels = labels;
+    vocChart.data.datasets[0].data = vocData;
+    vocChart.update();
+}
+
+// Initialiser les valeurs
+updateValues();
+
+
+
+    google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.setOnLoadCallback(initializeChart);
+
+    function initializeChart() {
+        drawRandomChart();
+        setInterval(drawRandomChart, 3000); // Update every 3 seconds
+    }
+
+    function drawRandomChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('number', 'Year');
+    data.addColumn('number', 'CO2');
+
+    var rows = [];
+
+    // Generate random data for CO2 and time (year) between 1990 and 2024
+    for (var year = 1990; year <= 2024; year++) {
+        rows.push([year, Math.floor(Math.random() * (100 - 10 + 1)) + 10]); // Adjust the CO2 range to 10-100
+    }
+
+    data.addRows(rows);
+
+    var options = {
+        hAxis: {
+            title: 'Year',
+            format: '####' // Format the year as an integer
+        },
+        vAxis: {
+            title: 'CO2',
+            minValue: 10,
+            maxValue: 100,
+            ticks: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100] // Set specific ticks for CO2 axis
+        }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+    chart.draw(data, options);
+}
+
+</script>
+        // Add any additional JavaScript specific to the charts page
+    </script>
+</body>
+
+</html>
